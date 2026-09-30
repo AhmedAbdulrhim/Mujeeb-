@@ -27,9 +27,16 @@
   function findLocal(q){
     const qTok = tokens(q);
     if(qTok.length===0) return null;
+    /* الكلمة الأكثر تميزًا في السؤال (الأندر في القاعدة) يجب أن تكون
+       موجودة في الإجابة المرشحة — وإلا فالإجابة تخمين مرفوض.
+       مثال: «من هو نبي الله صالح؟» كلمتها المميزة «صالح» لا توجد في أي
+       إجابة، فيُرفض الترشيح ويُحال السؤال للذكاء الاصطناعي بدل إجابة خاطئة. */
+    let rareT = qTok[0], rareDF = DF[qTok[0]]||0;
+    for(const t of qTok){ const d = DF[t]||0; if(d<rareDF){ rareDF=d; rareT=t; } }
     let best=null, bestS=0;
     for(const e of KNOWLEDGE){
       const eTok = new Set(tokens(e.q+" "+e.kw.join(" ")));
+      if(!eTok.has(rareT)) continue;
       const eKw  = new Set(tokens(e.kw.join(" ")));
       const matched = qTok.filter(t=>eTok.has(t));
       if(matched.length===0) continue;
