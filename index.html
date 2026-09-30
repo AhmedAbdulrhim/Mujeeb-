@@ -13,23 +13,7 @@
 <body>
 <div class="pattern" aria-hidden="true"></div>
 
-<button id="settingsBtn" class="settings-btn" title="الإعدادات" aria-label="الإعدادات">⚙</button>
-
-<div id="settingsModal" class="modal hidden">
-  <div class="modal-box">
-    <h3>إعدادات مُجيب</h3>
-    <p id="serverNote" class="hidden" style="color:#9fe8b8">✓ الموقع متصل عبر الخادم — الزوار يستخدمون الذكاء الاصطناعي مباشرة دون مفاتيح.</p>
-    <div id="keyRow">
-    <p>لتفعيل الإجابات الذكية لأي سؤال، أنشئ مفتاح Gemini مجاني من <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> والصقه هنا:</p>
-    <input id="apiKey" type="password" placeholder="مفتاح Gemini API" dir="ltr">
-    </div>
-    <div class="modal-actions">
-      <button id="saveKey">حفظ</button>
-      <button id="settingsClose" class="ghost">إغلاق</button>
-    </div>
-    <p class="muted">الحالة: <span id="keyStatus">غير مضاف</span> — بدون المفتاح يعمل مُجيب من القاعدة الموثقة فقط.</p>
-  </div>
-</div>
+<!-- أُزيل زر الإعدادات والنافذة: في وضع الخادم المفتاح مُدار في الاستضافة ولا يحتاج الزوار لأي إعداد -->
 
 <header class="hero">
   <div class="hero-inner">
