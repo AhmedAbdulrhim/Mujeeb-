@@ -32,6 +32,29 @@ const HEADERS = {
 };
 const reply = (statusCode, body) => ({ statusCode, headers: HEADERS, body: JSON.stringify(body) });
 
+/* استدعاء Gemini مع إعادة محاولة تلقائية عند الضغط المؤقت (503/429) */
+async function geminiWithRetry(url, payload, tries) {
+  tries = tries || 3;
+  for (let i = 0; i < tries; i++) {
+    try {
+      const r = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (r.ok) return r;
+      if (r.status === 429 || (r.status >= 500 && r.status < 600)) {
+        await new Promise(res => setTimeout(res, 1500 * (i + 1)));
+        continue;
+      }
+      return r; // خطأ نهائي لا تُعاد محاولته
+    } catch (e) {
+      await new Promise(res => setTimeout(res, 1500 * (i + 1)));
+    }
+  }
+  return null;
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers: HEADERS, body: "" };
   if (event.httpMethod !== "POST") return reply(405, { error: "POST only" });
@@ -51,15 +74,12 @@ exports.handler = async (event) => {
     MODEL + ":generateContent?key=" + encodeURIComponent(key);
 
   try {
-    const r = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-        contents: [{ parts: [{ text: q }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
-      }),
+    const r = await geminiWithRetry(url, {
+      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      contents: [{ parts: [{ text: q }] }],
+      generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
     });
+    if (!r) return reply(502, { error: "gemini busy" });
     if (!r.ok) return reply(502, { error: "gemini error" });
     const j = await r.json();
     const parts = j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts;
