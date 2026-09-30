@@ -2,7 +2,7 @@
    المفتاح يُقرأ من متغير البيئة GEMINI_KEY (يُضبط في لوحة Netlify فقط)
    لا يوضع المفتاح أبدًا في الكود أو في GitHub */
 
-const MODEL = "gemini-3.6-flash";
+const MODEL = "gemini-flash-lite-latest";
 
 const SYSTEM_PROMPT =
   "أنت «مُجيب»، مساعد متخصص في الأسئلة الدينية والتاريخ الإسلامي. التزم بهذه القواعد بصرامة:\n" +
@@ -32,24 +32,26 @@ const HEADERS = {
 };
 const reply = (statusCode, body) => ({ statusCode, headers: HEADERS, body: JSON.stringify(body) });
 
-/* استدعاء Gemini مع إعادة محاولة تلقائية عند الضغط المؤقت (503/429) */
+/* استدعاء Gemini مع إعادة محاولة فورية عند الضغط المؤقت (503/429) —
+   مهلة 9 ثوانٍ لكل محاولة لتناسب حدود الاستضافة */
 async function geminiWithRetry(url, payload, tries) {
-  tries = tries || 3;
+  tries = tries || 2;
   for (let i = 0; i < tries; i++) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 9000);
     try {
       const r = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        signal: ctrl.signal,
       });
+      clearTimeout(timer);
       if (r.ok) return r;
-      if (r.status === 429 || (r.status >= 500 && r.status < 600)) {
-        await new Promise(res => setTimeout(res, 1500 * (i + 1)));
-        continue;
-      }
+      if (r.status === 429 || (r.status >= 500 && r.status < 600)) continue;
       return r; // خطأ نهائي لا تُعاد محاولته
     } catch (e) {
-      await new Promise(res => setTimeout(res, 1500 * (i + 1)));
+      clearTimeout(timer);
     }
   }
   return null;
@@ -77,7 +79,7 @@ exports.handler = async (event) => {
     const r = await geminiWithRetry(url, {
       systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
       contents: [{ parts: [{ text: q }] }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 4000 },
+      generationConfig: { temperature: 0.3, maxOutputTokens: 1000 },
     });
     if (!r) return reply(502, { error: "gemini busy" });
     if (!r.ok) return reply(502, { error: "gemini error" });
