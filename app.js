@@ -222,7 +222,10 @@
     });
   });
   const sb=document.getElementById("settingsBtn");
-  if(sb) sb.addEventListener("click", openSettings);
+  if(sb){
+    if(PROXY_URL){ sb.style.display="none"; } // وضع الخادم: المفتاح مُدار في الاستضافة — لا حاجة لزر الإعدادات
+    else sb.addEventListener("click", openSettings);
+  }
   const sc=document.getElementById("settingsClose");
   if(sc) sc.addEventListener("click", closeSettings);
   const sv=document.getElementById("saveKey");
