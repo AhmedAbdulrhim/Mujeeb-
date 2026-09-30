@@ -50,13 +50,16 @@
   /* ---------- طبقة الذكاء الاصطناعي ---------- */
   const MODEL = "gemini-2.0-flash";
 
-  /* ضع هنا رابط الـ Worker بعد نشره على Cloudflare، مثال:
-     const PROXY_URL = "https://mujeeb-xxx.workers.dev";
-     عند وجوده يستخدم الزوار مفتاحك دون الحاجة لمفاتيح خاصة بهم.
-     على Netlify: الدالة المنشورة في netlify/functions/ask.js تعمل تلقائيًا
-     على المسار /.netlify/functions/ask — والمفتاح يُضبط كمتغير بيئة
-     GEMINI_KEY في لوحة Netlify (لا يوضع في GitHub أبدًا). */
-  const PROXY_URL = "/.netlify/functions/ask";
+  /* الوسيط الآمن (وضع الخادم): الزوار يستخدمون مفتاح المالك دون رؤيته.
+     - على Netlify: الدالة functions/ask.js تعمل على /.netlify/functions/ask
+     - على Vercel: الدالة api/ask.js تعمل على /api/ask
+     يُكتشف تلقائيًا حسب النطاق. المفتاح يُضبط كمتغير بيئة GEMINI_KEY
+     في لوحة الاستضافة (لا يوضع في GitHub أبدًا). */
+  const PROXY_URL = (() => {
+    const h = (typeof location !== "undefined" && location.hostname) || "";
+    if (h.endsWith("vercel.app")) return "/api/ask";
+    return "/.netlify/functions/ask";
+  })();
 
   let apiKey = null;
   try{ apiKey = localStorage.getItem("mujeeb_gemini_key") || null; }catch(e){}
