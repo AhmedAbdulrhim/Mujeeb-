@@ -73,7 +73,7 @@ export default async function handler(req, res) {
     const r = await geminiWithRetry(url, {
       systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
       contents: [{ parts: [{ text: q }] }],
-      generationConfig: { temperature: 0.3, maxOutputTokens: 600 },
+      generationConfig: { temperature: 0.3, maxOutputTokens: 4000 },
     });
     if (!r) return res.status(502).json({ error: "gemini busy" });
     if (!r.ok) return res.status(502).json({ error: "gemini error" });
