@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mujeeb-colos-projects-ae5ca7cd.vercel.app/sitemap.xml
