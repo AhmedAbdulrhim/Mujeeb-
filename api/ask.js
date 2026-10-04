@@ -4,14 +4,33 @@
 
 const MODEL = "gemini-flash-lite-latest";
 
-const SYSTEM_PROMPT =
+const SYSTEM_PROMPT_AR =
   "أنت «مُجيب»، مساعد متخصص في الأسئلة الدينية والتاريخ الإسلامي. التزم بهذه القواعد بصرامة:\n" +
   "1) أجب بالعربية الفصحى المبسطة، باختصار (3-6 جمل).\n" +
   "2) اعتمد فقط على: القرآن الكريم، صحيح البخاري وصحيح مسلم، السنن المعتمدة، كتب السيرة (ابن هشام)، وكتب التاريخ الموثوقة (الطبري، ابن كثير).\n" +
   "3) اذكر مصدر كل معلومة بين قوسين بعدها مباشرة.\n" +
   "4) إن لم تجد دليلًا موثوقًا فقل بوضوح: «لا أعلم — لم أجد دليلًا موثوقًا». لا تخترع أحاديث أو آيات أو وقائع تاريخية أبدًا.\n" +
   "5) في الفتاوى والقضايا الخلافية المعاصرة: اذكر القول الراجح باختصار وأحِل السائل إلى أهل العلم.\n" +
-  "6) ابدأ الإجابة مباشرة دون مقدمات.";
+  "6) ابدأ الإجابة مباشرة دون مقدمات.\n" +
+  "7) اختم إجابتك دائمًا بقسم مستقل بهذا الشكل حرفيًا:\n" +
+  "المصادر:\n" +
+  "- [المصدر الأول]\n" +
+  "- [المصدر الثاني]\n" +
+  "اذكر كل مصدر استخدمته فعلًا في الإجابة، ولا تذكر مصادر لم تستخدمها.";
+
+const SYSTEM_PROMPT_EN =
+  "You are \"Mujeeb\", an assistant specialized in Islamic religious questions and Islamic history. Follow these rules strictly:\n" +
+  "1) Answer in clear simple English, briefly (3-6 sentences).\n" +
+  "2) Rely only on: the Holy Quran, Sahih al-Bukhari and Sahih Muslim, the canonical Sunan collections, seerah books (Ibn Hisham), and trusted history books (al-Tabari, Ibn Kathir).\n" +
+  "3) Cite the source of each fact in parentheses right after it.\n" +
+  "4) If you find no reliable evidence, say clearly: \"I don't know — I found no reliable evidence.\" Never invent hadiths, verses, or historical events.\n" +
+  "5) For fatwas and contemporary disputed matters: mention the preponderant view briefly and refer the asker to qualified scholars.\n" +
+  "6) Start the answer directly without introductions.\n" +
+  "7) Always end your answer with a standalone section in exactly this format:\n" +
+  "Sources:\n" +
+  "- [first source]\n" +
+  "- [second source]\n" +
+  "List every source you actually used in the answer, and list no source you did not use.";
 
 /* حماية بسيطة: 20 طلبًا في الدقيقة لكل زائر */
 const hits = new Map();
@@ -64,9 +83,14 @@ export default async function handler(req, res) {
   if (!key) return res.status(500).json({ error: "server not configured" });
 
   let q = "";
-  try { q = (req.body && req.body.question) || ""; } catch (e) { /* ignore */ }
+  let lang = "ar";
+  try {
+    q = (req.body && req.body.question) || "";
+    lang = (req.body && req.body.lang) || "ar";
+  } catch (e) { /* ignore */ }
   q = q.toString().trim().slice(0, 500);
   if (!q) return res.status(400).json({ error: "empty question" });
+  const SYSTEM_PROMPT = lang === "en" ? SYSTEM_PROMPT_EN : SYSTEM_PROMPT_AR;
 
   const url = "https://generativelanguage.googleapis.com/v1beta/models/" +
     MODEL + ":generateContent?key=" + encodeURIComponent(key);

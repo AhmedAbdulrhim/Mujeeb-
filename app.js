@@ -18,6 +18,16 @@
     return norm(s).split(" ").filter(t=>t.length>1 && !STOP.has(t));
   }
 
+  /* ---------- اللغة ---------- */
+  let LANG = (typeof getLang === "function") ? getLang() : "ar";
+  function L(){ return (LANG==="en") ? I18N.en : I18N.ar; }
+  function setLang(l){
+    LANG = l;
+    if(typeof applyI18n === "function") applyI18n(l);
+    const btn = document.getElementById("langToggle");
+    if(btn) btn.textContent = L().langLabel;
+  }
+
   /* ---------- المطابقة المحلية (القاعدة الموثقة) ---------- */
   const DF = {};
   for(const e of KNOWLEDGE){
@@ -84,7 +94,7 @@
     const r = await fetch(PROXY_URL,{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({question:q})
+      body:JSON.stringify({question:q, lang:LANG})
     });
     if(!r.ok) throw new Error("proxy "+r.status);
     const j = await r.json();
@@ -123,32 +133,45 @@
     const e=res.entry;
     const srcs=e.src.map(s=>"<li>"+esc(s)+"</li>").join("");
     return '<div class="card"><span class="cat">'+esc(e.cat)+'</span> '+
-      '<span class="cat verified">✓ إجابة موثقة</span>'+
+      '<span class="cat verified">'+L().verifiedBadge+'</span>'+
       "<h2>"+esc(e.q)+"</h2>"+
       '<p class="ans">'+esc(e.a)+"</p>"+
-      '<div class="srcs"><h4>المصادر والمراجع</h4><ul>'+srcs+"</ul></div>"+
-      '<div class="conf"><span>ثقة الإجابة</span><div class="bar"><i style="width:'+res.conf+'%"></i></div><span>'+res.conf+'%</span></div></div>';
+      '<div class="srcs"><h4>'+L().sourcesTitle+'</h4><ul>'+srcs+"</ul></div>"+
+      '<div class="conf"><span>'+L().confLabel+'</span><div class="bar"><i style="width:'+res.conf+'%"></i></div><span>'+res.conf+'%</span></div></div>';
   }
 
-  function aiCard(text, q){
-    const paras = esc(text).split(/\n+/).map(p=>"<p>"+p+"</p>").join("");
-    return '<div class="card ai"><span class="cat ai-badge">✦ إجابة ذكية</span>'+
+  function aiCard(text, q, lang){
+    const L = (lang==="en") ? I18N.en : I18N.ar;
+    // افصل قسم المصادر عن متن الإجابة إن وجد
+    let body = text, srcs = [];
+    const m = text.match(/\n\s*(المصادر|Sources)\s*:\s*\n([\s\S]*)$/i);
+    if(m){
+      body = text.slice(0, m.index).trim();
+      srcs = m[2].split("\n").map(s=>s.replace(/^[-•*]\s*/,"").trim()).filter(Boolean);
+    }
+    const paras = esc(body).split(/\n+/).map(p=>"<p>"+p+"</p>").join("");
+    let srcHtml = "";
+    if(srcs.length){
+      srcHtml = '<div class="srcs"><h4>'+L.sourcesTitle+'</h4><ul>'+
+        srcs.map(s=>"<li>"+esc(s)+"</li>").join("")+"</ul></div>";
+    }
+    return '<div class="card ai"><span class="cat ai-badge">'+L.aiBadge+'</span>'+
       "<h2>"+esc(q)+"</h2>"+
-      '<div class="ans ai-text">'+paras+"</div>"+
-      '<p class="disclaimer">أُنتجت هذه الإجابة بالذكاء الاصطناعي من مصادر إسلامية معتمدة — تحقق من المصادر المذكورة، واستشر أهل العلم في الفتاوى.</p></div>';
+      '<div class="ans ai-text">'+paras+"</div>"+srcHtml+
+      '<p class="disclaimer">'+L.aiDisclaimer+'</p></div>';
   }
 
   function refusalCard(q, extra){
     return '<div class="card refusal"><div class="big">🔍</div>'+
-      "<h2>لا إجابة بلا دليل</h2>"+
-      "<p>لم أجد إجابة موثقة لسؤالك: «"+esc(q)+"»<br>"+
-      (extra||"أفضّل الصمت على التخمين — جرّب صياغة أخرى أو سؤالًا في الصلاة، السيرة، أو التاريخ الإسلامي.")+"</p></div>";
+      "<h2>"+L().refusalTitle+"</h2>"+
+      "<p>"+L().refusalFor+" «"+esc(q)+"»<br>"+
+      (extra||L().refusalDefault)+"</p></div>";
   }
 
   function loadingCard(){
     return '<div class="card refusal"><div class="spinner"></div>'+
-      "<h2>مُجيب يبحث في المصادر…</h2>"+
-      "<p>لحظات ويأتيك الجواب الموثق</p></div>";
+      "<h2>"+L().loadingTitle+"</h2>"+
+      "<p>"+L().loadingSub+"</p></div>";
   }
 
   async function answer(q){
@@ -159,13 +182,14 @@
       show(loadingCard());
       try{
         const text = await askProxy(q);
-        if(/لا أعلم|لم أجد دليل/i.test(text.slice(0,80))){
-          show(refusalCard(q, "لم يُعثر على دليل موثوق — فضّل مُجيب الصمت على التخمين."));
+        const noAns = LANG==="en" ? /i don'?t know|no reliable evidence/i : /لا أعلم|لم أجد دليل/i;
+        if(noAns.test(text.slice(0,120))){
+          show(refusalCard(q, L().refusalNoEvidence));
         }else{
-          show(aiCard(text, q));
+          show(aiCard(text, q, LANG));
         }
       }catch(err){
-        show(refusalCard(q, "تعذر الاتصال بخدمة الذكاء الاصطناعي — حاول مجددًا بعد قليل."));
+        show(refusalCard(q, L().refusalConn));
       }
       return;
     }
@@ -228,6 +252,12 @@
       answer(q);
     });
   });
+  // مبدل اللغة
+  const langBtn=document.getElementById("langToggle");
+  if(langBtn) langBtn.addEventListener("click",function(){
+    setLang(LANG==="ar" ? "en" : "ar");
+  });
+  setLang(LANG);
   const sb=document.getElementById("settingsBtn");
   if(sb){
     if(PROXY_URL){ sb.style.display="none"; } // وضع الخادم: المفتاح مُدار في الاستضافة — لا حاجة لزر الإعدادات

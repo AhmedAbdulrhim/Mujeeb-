@@ -129,9 +129,13 @@ footer .soc:hover{background:rgba(201,162,39,.15);transform:translateY(-2px)}
   padding:14px 28px;background:rgba(12,46,41,.88);backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line)}
 .nav-logo{font-family:"Noto Kufi Arabic",sans-serif;font-weight:900;font-size:26px;color:var(--gold-soft);text-decoration:none}
-.nav-links{display:flex;gap:26px}
+.nav-links{display:flex;gap:26px;align-items:center}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:16px;transition:.2s}
 .nav-links a:hover{color:var(--gold-soft)}
+.lang-btn{background:rgba(201,162,39,.1);border:1px solid var(--line);color:var(--gold-soft);
+  padding:7px 18px;border-radius:999px;font-family:inherit;font-size:14px;font-weight:700;
+  cursor:pointer;transition:.2s}
+.lang-btn:hover{background:rgba(201,162,39,.25)}
 
 /* ===== New Sections ===== */
 .faq,.about,.contact{max-width:860px;margin:0 auto;padding:70px 20px;text-align:center}

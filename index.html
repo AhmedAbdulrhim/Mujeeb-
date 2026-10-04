@@ -17,13 +17,13 @@
 <meta property="og:site_name" content="مُجيب">
 <meta property="og:locale" content="ar_SA">
 <meta property="og:title" content="مُجيب | إجابات دينية موثوقة بالذكاء الاصطناعي">
-<meta property="og:description" content="اسأل سؤالك الديني أو التاريخي واحصل على إجابة موثقة بالمصادر — لا إجابة بلا دليل.">
+<meta property="og:description" content="اسأل سؤالك الديني أو التاريخي واحصل على إجابة موثوقة بالمصادر — لا إجابة بلا دليل.">
 <meta property="og:url" content="https://mujeeb-colos-projects-ae5ca7cd.vercel.app/">
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="مُجيب | إجابات دينية موثوقة بالذكاء الاصطناعي">
-<meta name="twitter:description" content="اسأل سؤالك الديني أو التاريخي واحصل على إجابة موثقة بالمصادر — لا إجابة بلا دليل.">
+<meta name="twitter:description" content="اسأل سؤالك الديني أو التاريخي واحصل على إجابة موثوقة بالمصادر — لا إجابة بلا دليل.">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -35,7 +35,7 @@
       "@id": "https://mujeeb-colos-projects-ae5ca7cd.vercel.app/#website",
       "url": "https://mujeeb-colos-projects-ae5ca7cd.vercel.app/",
       "name": "مُجيب",
-      "inLanguage": "ar",
+      "inLanguage": ["ar", "en"],
       "description": "مساعد ذكي يجيب عن الأسئلة الدينية وموضوعات التاريخ الإسلامي بإجابات موثقة بالمصادر."
     },
     {
@@ -76,35 +76,36 @@
 <div class="pattern" aria-hidden="true"></div>
 
 <nav class="topnav" aria-label="التنقل الرئيسي">
-  <a href="#" class="nav-logo">مُجيب</a>
+  <a href="#" class="nav-logo" data-i18n="navLogo">مُجيب</a>
   <div class="nav-links">
-    <a href="#how">كيف يعمل</a>
-    <a href="#faq">الأسئلة الشائعة</a>
-    <a href="#about">من نحن</a>
-    <a href="#contact">تواصل معنا</a>
+    <a href="#how" data-i18n="navHow">كيف يعمل</a>
+    <a href="#faq" data-i18n="navFaq">الأسئلة الشائعة</a>
+    <a href="#about" data-i18n="navAbout">من نحن</a>
+    <a href="#contact" data-i18n="navContact">تواصل معنا</a>
+    <button id="langToggle" class="lang-btn" aria-label="تغيير اللغة">EN</button>
   </div>
 </nav>
 
 <header class="hero">
   <div class="hero-inner">
-    <div class="badge">مساعدك الذكي للمعرفة الإسلامية الموثوقة</div>
-    <h1 class="logo">مُجيب</h1>
-    <p class="tagline">عندك سؤال ديني أو تاريخي؟<br>الإجابة الموثقة هنا — <span class="gold">لا إجابة بلا دليل</span></p>
+    <div class="badge" data-i18n="badge">مساعدك الذكي للمعرفة الإسلامية الموثوقة</div>
+    <h1 class="logo" data-i18n="navLogo">مُجيب</h1>
+    <p class="tagline"><span data-i18n="tagline1">عندك سؤال ديني أو تاريخي؟</span><br><span data-i18n="tagline2">الإجابة الموثقة هنا</span> — <span class="gold" data-i18n="gold">لا إجابة بلا دليل</span></p>
 
     <form id="askForm" class="ask-box" autocomplete="off">
-      <input id="q" type="text" placeholder="اكتب سؤالك… مثال: متى كانت غزوة بدر؟" aria-label="سؤالك">
-      <button type="submit">اسأل مُجيب</button>
+      <input id="q" type="text" data-i18n-ph="placeholder" placeholder="اكتب سؤالك… مثال: متى كانت غزوة بدر؟" aria-label="سؤالك">
+      <button type="submit" data-i18n="askBtn">اسأل مُجيب</button>
     </form>
 
     <div class="samples">
-      <span>جرّب:</span>
-      <button type="button" data-q="ما هي أركان الصلاة؟">أركان الصلاة</button>
-      <button type="button" data-q="متى فتحت القسطنطينية؟">فتح القسطنطينية</button>
-      <button type="button" data-q="كم عدد سور القرآن؟">عدد سور القرآن</button>
-      <button type="button" data-q="من هو صلاح الدين الأيوبي؟">صلاح الدين</button>
+      <span data-i18n="samplesLabel">جرّب:</span>
+      <button type="button" data-i18n-q="q1" data-q="ما هي أركان الصلاة؟"><span data-i18n="s1">أركان الصلاة</span></button>
+      <button type="button" data-i18n-q="q2" data-q="متى فتحت القسطنطينية؟"><span data-i18n="s2">فتح القسطنطينية</span></button>
+      <button type="button" data-i18n-q="q3" data-q="كم عدد سور القرآن؟"><span data-i18n="s3">عدد سور القرآن</span></button>
+      <button type="button" data-i18n-q="q4" data-q="من هو صلاح الدين الأيوبي؟"><span data-i18n="s4">صلاح الدين</span></button>
     </div>
   </div>
-  <div class="scroll-hint">مرر للأسفل لتعرف كيف يعمل مُجيب</div>
+  <div class="scroll-hint" data-i18n="scrollHint">مرر للأسفل لتعرف كيف يعمل مُجيب</div>
 </header>
 
 <main>
@@ -113,100 +114,76 @@
   </section>
 
   <section class="how" id="how">
-    <h2>كيف يعمل مُجيب؟</h2>
+    <h2 data-i18n="howTitle">كيف يعمل مُجيب؟</h2>
     <div class="steps">
-      <div class="step"><div class="n">1</div><h3>تطرح سؤالك</h3><p>اكتب سؤالك الديني أو التاريخي بلغتك الطبيعية</p></div>
-      <div class="step"><div class="n">2</div><h3>نبحث في المصادر الموثقة</h3><p>نطابق سؤالك مع قاعدة معرفية إسلامية موثقة</p></div>
-      <div class="step"><div class="n">3</div><h3>إجابة بالدليل</h3><p>إجابة واضحة مع ذكر المصادر والمراجع لكل معلومة</p></div>
-      <div class="step"><div class="n">4</div><h3>لا دليل = لا إجابة</h3><p>إن لم نجد دليلًا موثوقًا، نصارحك بدل التخمين</p></div>
+      <div class="step"><div class="n">1</div><h3 data-i18n="st1t">تطرح سؤالك</h3><p data-i18n="st1d">اكتب سؤالك الديني أو التاريخي بلغتك الطبيعية</p></div>
+      <div class="step"><div class="n">2</div><h3 data-i18n="st2t">نبحث في المصادر الموثقة</h3><p data-i18n="st2d">نطابق سؤالك مع قاعدة معرفية إسلامية موثقة</p></div>
+      <div class="step"><div class="n">3</div><h3 data-i18n="st3t">إجابة بالدليل</h3><p data-i18n="st3d">إجابة واضحة مع ذكر المصادر والمراجع لكل معلومة</p></div>
+      <div class="step"><div class="n">4</div><h3 data-i18n="st4t">لا دليل = لا إجابة</h3><p data-i18n="st4d">إن لم نجد دليلًا موثوقًا، نصارحك بدل التخمين</p></div>
     </div>
   </section>
 
   <section class="cats">
-    <h2>ماذا يغطي مُجيب؟</h2>
+    <h2 data-i18n="catsTitle">ماذا يغطي مُجيب؟</h2>
     <div class="chips">
-      <div class="chip">الصلاة والعبادات</div>
-      <div class="chip">الصيام والزكاة والحج</div>
-      <div class="chip">السيرة النبوية</div>
-      <div class="chip">التاريخ الإسلامي</div>
-      <div class="chip">القرآن والعقيدة</div>
+      <div class="chip" data-i18n="c1">الصلاة والعبادات</div>
+      <div class="chip" data-i18n="c2">الصيام والزكاة والحج</div>
+      <div class="chip" data-i18n="c3">السيرة النبوية</div>
+      <div class="chip" data-i18n="c4">التاريخ الإسلامي</div>
+      <div class="chip" data-i18n="c5">القرآن والعقيدة</div>
     </div>
   </section>
 
   <section class="faq" id="faq">
-    <h2>الأسئلة الشائعة</h2>
-    <p class="section-sub">إجابات مختصرة من قاعدة مُجيب الموثقة — اسأل أي سؤال آخر في الأعلى</p>
+    <h2 data-i18n="faqTitle">الأسئلة الشائعة</h2>
+    <p class="section-sub" data-i18n="faqSub">إجابات مختصرة من قاعدة مُجيب الموثقة — اسأل أي سؤال آخر في الأعلى</p>
     <div class="faq-list">
-      <details>
-        <summary>ما هي أركان الإيمان؟</summary>
-        <p>أركان الإيمان ستة: الإيمان بالله، وملائكته، وكتبه، ورسله، واليوم الآخر، والقدر خيره وشره.</p>
-      </details>
-      <details>
-        <summary>ما هي بيعة العقبة؟</summary>
-        <p>بيعتا العقبة لقاءان تمّا بين النبي ﷺ ووفود من أهل يثرب قبل الهجرة، بايعوه فيهما على الإسلام والنصرة.</p>
-      </details>
-      <details>
-        <summary>ما مقدار زكاة الفطر؟</summary>
-        <p>زكاة الفطر صاع من طعام (نحو ثلاثة كيلوغرامات)، تجب على كل مسلم قبل صلاة عيد الفطر.</p>
-      </details>
-      <details>
-        <summary>متى فرض صيام رمضان؟</summary>
-        <p>فرض صيام رمضان في السنة الثانية للهجرة.</p>
-      </details>
-      <details>
-        <summary>ما هو نصاب زكاة المال؟</summary>
-        <p>نصاب زكاة المال ما يعادل 85 غرامًا من الذهب، فمن ملكه وحال عليه الحول وجبت فيه الزكاة ربع العشر (2.5%).</p>
-      </details>
-      <details>
-        <summary>ما الفرق بين السور المكية والمدنية؟</summary>
-        <p>السور المكية نزلت قبل الهجرة وغالب موضوعاتها العقيدة والتوحيد، والسور المدنية نزلت بعد الهجرة وغالب موضوعاتها الأحكام والتشريع.</p>
-      </details>
-      <details>
-        <summary>متى فرض الحج؟</summary>
-        <p>فرض الحج في السنة التاسعة للهجرة على قول جمهور العلماء.</p>
-      </details>
-      <details>
-        <summary>هل إجابات مُجيب فتاوى ملزمة؟</summary>
-        <p>لا. إجابات مُجيب استرشادية من مصادر معتمدة، وللفتاوى الملزمة راجع أهل العلم.</p>
-      </details>
+      <details><summary data-i18n="fq1">ما هي أركان الإيمان؟</summary><p data-i18n="fa1">أركان الإيمان ستة: الإيمان بالله، وملائكته، وكتبه، ورسله، واليوم الآخر، والقدر خيره وشره.</p></details>
+      <details><summary data-i18n="fq2">ما هي بيعة العقبة؟</summary><p data-i18n="fa2">بيعتا العقبة لقاءان تمّا بين النبي ﷺ ووفود من أهل يثرب قبل الهجرة، بايعوه فيهما على الإسلام والنصرة.</p></details>
+      <details><summary data-i18n="fq3">ما مقدار زكاة الفطر؟</summary><p data-i18n="fa3">زكاة الفطر صاع من طعام (نحو ثلاثة كيلوغرامات)، تجب على كل مسلم قبل صلاة عيد الفطر.</p></details>
+      <details><summary data-i18n="fq4">متى فرض صيام رمضان؟</summary><p data-i18n="fa4">فرض صيام رمضان في السنة الثانية للهجرة.</p></details>
+      <details><summary data-i18n="fq5">ما هو نصاب زكاة المال؟</summary><p data-i18n="fa5">نصاب زكاة المال ما يعادل 85 غرامًا من الذهب، فمن ملكه وحال عليه الحول وجبت فيه الزكاة ربع العشر (2.5%).</p></details>
+      <details><summary data-i18n="fq6">ما الفرق بين السور المكية والمدنية؟</summary><p data-i18n="fa6">السور المكية نزلت قبل الهجرة وغالب موضوعاتها العقيدة والتوحيد، والسور المدنية نزلت بعد الهجرة وغالب موضوعاتها الأحكام والتشريع.</p></details>
+      <details><summary data-i18n="fq7">متى فرض الحج؟</summary><p data-i18n="fa7">فرض الحج في السنة التاسعة للهجرة على قول جمهور العلماء.</p></details>
+      <details><summary data-i18n="fq8">هل إجابات مُجيب فتاوى ملزمة؟</summary><p data-i18n="fa8">لا. إجابات مُجيب استرشادية من مصادر معتمدة، وللفتاوى الملزمة راجع أهل العلم.</p></details>
     </div>
   </section>
 
   <section class="about" id="about">
-    <h2>من نحن</h2>
+    <h2 data-i18n="aboutTitle">من نحن</h2>
     <div class="about-card">
-      <p><strong>مُجيب</strong> مساعد ذكي متخصص في الإجابة عن الأسئلة الدينية وموضوعات التاريخ الإسلامي — بُني لمواجهة مشكلة حقيقية: نماذج الذكاء الاصطناعي العامة تُهلوس عند الإجابة عن الأسئلة الدينية، وتنتشر إجابات غير موثوقة في المحتوى الرقمي.</p>
-      <h3>منهجيتنا</h3>
+      <p><strong data-i18n="navLogo">مُجيب</strong> <span data-i18n="aboutP1">مساعد ذكي متخصص في الإجابة عن الأسئلة الدينية وموضوعات التاريخ الإسلامي — بُني لمواجهة مشكلة حقيقية: نماذج الذكاء الاصطناعي العامة تُهلوس عند الإجابة عن الأسئلة الدينية، وتنتشر إجابات غير موثوقة في المحتوى الرقمي.</span></p>
+      <h3 data-i18n="aboutMt">منهجيتنا</h3>
       <ol>
-        <li><strong>قاعدة معرفية موثقة أولًا:</strong> 88 سؤالًا وجوابًا من مصادر معتمدة (القرآن الكريم، صحيح البخاري ومسلم، السنن، كتب السيرة والتفسير).</li>
-        <li><strong>ذكاء اصطناعي مُوجَّه:</strong> للأسئلة خارج القاعدة، يلتزم النموذج بذكر مصادره أو الاعتذار.</li>
-        <li><strong>لا إجابة بلا دليل:</strong> عند غياب الدليل الموثوق نمتنع عن الإجابة بدل التخمين.</li>
+        <li><strong data-i18n="aboutM1">قاعدة معرفية موثقة أولًا:</strong> <span data-i18n="aboutM1d">134 سؤالًا وجوابًا من مصادر معتمدة (القرآن الكريم، صحيح البخاري ومسلم، السنن، كتب السيرة والتفسير).</span></li>
+        <li><strong data-i18n="aboutM2">ذكاء اصطناعي مُوجَّه:</strong> <span data-i18n="aboutM2d">للأسئلة خارج القاعدة، يلتزم النموذج بذكر مصادره أو الاعتذار.</span></li>
+        <li><strong data-i18n="aboutM3">لا إجابة بلا دليل:</strong> <span data-i18n="aboutM3d">عند غياب الدليل الموثوق نمتنع عن الإجابة بدل التخمين.</span></li>
       </ol>
-      <h3>مصادرنا</h3>
-      <p>القرآن الكريم، صحيح البخاري، صحيح مسلم، السنن الأربعة، سيرة ابن هشام، تفسير ابن كثير والطبري، وكتب التاريخ الإسلامي الموثوقة.</p>
-      <p class="muted">المطور: Ahmed Mohamed Ahmed — مهندس اتصالات واستراتيجي محتوى بالذكاء الاصطناعي.</p>
+      <h3 data-i18n="aboutSt">مصادرنا</h3>
+      <p data-i18n="aboutSp">القرآن الكريم، صحيح البخاري، صحيح مسلم، السنن الأربعة، سيرة ابن هشام، تفسير ابن كثير والطبري، وكتب التاريخ الإسلامي الموثوقة.</p>
+      <p class="muted" data-i18n="aboutDev">المطور: Ahmed Mohamed Ahmed — مهندس اتصالات واستراتيجي محتوى بالذكاء الاصطناعي.</p>
     </div>
   </section>
 
   <section class="contact" id="contact">
-    <h2>تواصل معنا</h2>
-    <p class="section-sub">عندك اقتراح، تصحيح، أو سؤال عن مُجيب؟ يسعدنا نسمع منك</p>
+    <h2 data-i18n="contactTitle">تواصل معنا</h2>
+    <p class="section-sub" data-i18n="contactSub">عندك اقتراح، تصحيح، أو سؤال عن مُجيب؟ يسعدنا نسمع منك</p>
     <div class="contact-card">
-      <a class="contact-btn" href="mailto:ahmedman855@gmail.com?subject=تواصل%20مع%20مُجيب">راسلنا عبر البريد</a>
+      <a class="contact-btn" href="mailto:ahmedman855@gmail.com?subject=تواصل%20مع%20مُجيب" data-i18n="contactBtn">راسلنا عبر البريد</a>
       <p class="muted">ahmedman855@gmail.com</p>
     </div>
   </section>
 </main>
 
 <footer>
-  <p>مُجيب — إجابات دينية وتاريخية موثوقة بالذكاء الاصطناعي</p>
+  <p data-i18n="footerTag">مُجيب — إجابات دينية وتاريخية موثوقة بالذكاء الاصطناعي</p>
   <div class="footer-links">
-    <a href="#faq">الأسئلة الشائعة</a>
-    <a href="#about">من نحن</a>
-    <a href="#contact">تواصل معنا</a>
+    <a href="#faq" data-i18n="navFaq">الأسئلة الشائعة</a>
+    <a href="#about" data-i18n="navAbout">من نحن</a>
+    <a href="#contact" data-i18n="navContact">تواصل معنا</a>
   </div>
   <div class="social">
-    <span>تابعنا:</span>
+    <span data-i18n="footerFollow">تابعنا:</span>
     <a href="https://www.instagram.com/zo7al.10" target="_blank" rel="noopener" aria-label="انستغرام" class="soc">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
     </a>
@@ -214,11 +191,12 @@
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
     </a>
   </div>
-  <p class="muted">الإجابات استرشادية من مصادر معتمدة — للفتاوى الملزمة راجع أهل العلم</p>
+  <p class="muted" data-i18n="footerDisclaimer">الإجابات استرشادية من مصادر معتمدة — للفتاوى الملزمة راجع أهل العلم</p>
 </footer>
 
 <script src="knowledge.js"></script>
 <script src="knowledge2.js"></script>
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
