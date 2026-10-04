@@ -75,14 +75,14 @@
 <body>
 <div class="pattern" aria-hidden="true"></div>
 
-<nav class="topnav" aria-label="التنقل الرئيسي">
+<nav class="topnav" data-i18n-aria="navAria" aria-label="التنقل الرئيسي">
   <a href="#" class="nav-logo" data-i18n="navLogo">مُجيب</a>
   <div class="nav-links">
     <a href="#how" data-i18n="navHow">كيف يعمل</a>
     <a href="#faq" data-i18n="navFaq">الأسئلة الشائعة</a>
     <a href="#about" data-i18n="navAbout">من نحن</a>
     <a href="#contact" data-i18n="navContact">تواصل معنا</a>
-    <button id="langToggle" class="lang-btn" aria-label="تغيير اللغة">EN</button>
+    <button id="langToggle" class="lang-btn" data-i18n-aria="langAria" aria-label="تغيير اللغة">EN</button>
   </div>
 </nav>
 
@@ -93,7 +93,7 @@
     <p class="tagline"><span data-i18n="tagline1">عندك سؤال ديني أو تاريخي؟</span><br><span data-i18n="tagline2">الإجابة الموثقة هنا</span> — <span class="gold" data-i18n="gold">لا إجابة بلا دليل</span></p>
 
     <form id="askForm" class="ask-box" autocomplete="off">
-      <input id="q" type="text" data-i18n-ph="placeholder" placeholder="اكتب سؤالك… مثال: متى كانت غزوة بدر؟" aria-label="سؤالك">
+      <input id="q" type="text" data-i18n-ph="placeholder" placeholder="اكتب سؤالك… مثال: متى كانت غزوة بدر؟" data-i18n-aria="qAria" aria-label="سؤالك">
       <button type="submit" data-i18n="askBtn">اسأل مُجيب</button>
     </form>
 
@@ -184,10 +184,10 @@
   </div>
   <div class="social">
     <span data-i18n="footerFollow">تابعنا:</span>
-    <a href="https://www.instagram.com/zo7al.10" target="_blank" rel="noopener" aria-label="انستغرام" class="soc">
+    <a href="https://www.instagram.com/zo7al.10" target="_blank" rel="noopener" aria-label="Instagram" class="soc">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
     </a>
-    <a href="https://www.facebook.com/share/19dcsQoeWy/" target="_blank" rel="noopener" aria-label="فيسبوك" class="soc">
+    <a href="https://www.facebook.com/share/19dcsQoeWy/" target="_blank" rel="noopener" aria-label="Facebook" class="soc">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
     </a>
   </div>

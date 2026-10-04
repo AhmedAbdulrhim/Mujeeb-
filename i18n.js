@@ -2,6 +2,7 @@
 const I18N = {
 ar: {
   dir: "rtl", langLabel: "EN",
+  langAria: "تغيير اللغة", qAria: "سؤالك", navAria: "التنقل الرئيسي",
   navLogo: "مُجيب", navHow: "كيف يعمل", navFaq: "الأسئلة الشائعة", navAbout: "من نحن", navContact: "تواصل معنا",
   badge: "مساعدك الذكي للمعرفة الإسلامية الموثوقة",
   tagline1: "عندك سؤال ديني أو تاريخي؟", tagline2: "الإجابة الموثقة هنا", gold: "لا إجابة بلا دليل",
@@ -52,6 +53,7 @@ ar: {
 },
 en: {
   dir: "ltr", langLabel: "عربي",
+  langAria: "Change language", qAria: "Your question", navAria: "Main navigation",
   navLogo: "Mujeeb", navHow: "How it works", navFaq: "FAQ", navAbout: "About", navContact: "Contact",
   badge: "Your smart assistant for trusted Islamic knowledge",
   tagline1: "Have a religious or history question?", tagline2: "The documented answer is here", gold: "No answer without evidence",
@@ -121,6 +123,10 @@ function applyI18n(lang){
   document.querySelectorAll("[data-i18n-q]").forEach(el=>{
     const k = el.getAttribute("data-i18n-q");
     if(L[k] !== undefined) el.setAttribute("data-q", L[k]);
+  });
+  document.querySelectorAll("[data-i18n-aria]").forEach(el=>{
+    const k = el.getAttribute("data-i18n-aria");
+    if(L[k] !== undefined) el.setAttribute("aria-label", L[k]);
   });
   try{ localStorage.setItem("mujeeb_lang", lang); }catch(e){}
 }
